@@ -30,7 +30,7 @@ public class PostController {
      */
     @PostMapping("/posts")
     public String createPost(@RequestBody PostCreateRequest post) {
-        log.info("post = {}", post);
+        log.debug("post = {}", post);
 
         return "Hello World";
     }

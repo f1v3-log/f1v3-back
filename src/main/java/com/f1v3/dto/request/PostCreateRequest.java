@@ -1,6 +1,6 @@
 package com.f1v3.dto.request;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 /**
@@ -8,7 +8,7 @@ import lombok.ToString;
  */
 
 @ToString
-@AllArgsConstructor
+@Setter
 public class PostCreateRequest {
 
     private String title;
