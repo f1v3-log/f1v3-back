@@ -3,8 +3,8 @@ package com.f1v3.dto.response;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 에러 응답 DTO.
@@ -26,16 +26,10 @@ public class ErrorResponse {
 
     private final String code;
     private final String message;
-    private final List<ValidationTuple> validation = new ArrayList<>();
+    private final Map<String, String> validation = new HashMap<>();
 
     public void addValidation(String field, String errorMessage) {
-        validation.add(new ValidationTuple(field, errorMessage));
+        validation.put(field, errorMessage);
     }
 
-    @Getter
-    @RequiredArgsConstructor
-    private static class ValidationTuple {
-        private final String fieldName;
-        private final String errorMessage;
-    }
 }
