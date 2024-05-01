@@ -1,4 +1,4 @@
-package com.f1v3.dto.request;
+package com.f1v3.request;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
@@ -7,7 +7,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 /**
- * 게시글 생성 요청 DTO
+ * 게시글 생성 요청 클래스.
  */
 
 @Getter

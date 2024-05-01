@@ -1,4 +1,4 @@
-package com.f1v3.dto.response;
+package com.f1v3.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 에러 응답 DTO.
+ * 에러 응답 클래스.
  */
 
 @Getter
