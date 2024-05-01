@@ -1,7 +1,8 @@
 package com.f1v3.service;
 
 import com.f1v3.domain.Post;
-import com.f1v3.dto.request.PostCreateRequest;
+import com.f1v3.request.PostCreateRequest;
+import com.f1v3.response.PostResponse;
 import com.f1v3.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -50,20 +51,19 @@ class PostServiceTest {
     void getOnePost() {
         // given
         Post requestPost = Post.builder()
-                .title("this is title!!")
-                .content("content is empty :)")
+                .title("foo")
+                .content("bar")
                 .build();
 
         postRepository.save(requestPost);
 
         // when
-        Post post = postService.get(requestPost.getId());
+        PostResponse response = postService.get(requestPost.getId());
 
         // then
-        assertNotNull(post);
+        assertNotNull(response);
         assertEquals(1L, postRepository.count());
-        Post responsePost = postRepository.findAll().get(0);
-        assertEquals("this is title!!", responsePost.getTitle());
-        assertEquals("content is empty :)", responsePost.getContent());
+        assertEquals("foo", response.getTitle());
+        assertEquals("bar", response.getContent());
     }
 }

@@ -1,8 +1,9 @@
 package com.f1v3.service;
 
 import com.f1v3.domain.Post;
-import com.f1v3.dto.request.PostCreateRequest;
-import com.f1v3.dto.response.PostCreateResponse;
+import com.f1v3.request.PostCreateRequest;
+import com.f1v3.response.PostCreateResponse;
+import com.f1v3.response.PostResponse;
 import com.f1v3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,8 +39,15 @@ public class PostService {
      * @param id 게시글 ID
      * @return 게시글
      */
-    public Post get(Long id) {
-        return postRepository.findById(id)
+    public PostResponse get(Long id) {
+        Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        return PostResponse.builder()
+                .id(post.getId())
+                .title(post.getTitle())
+                .content(post.getContent())
+                .build();
+
     }
 }

@@ -1,8 +1,8 @@
 package com.f1v3.controller;
 
-import com.f1v3.domain.Post;
-import com.f1v3.dto.request.PostCreateRequest;
-import com.f1v3.dto.response.PostCreateResponse;
+import com.f1v3.request.PostCreateRequest;
+import com.f1v3.response.PostCreateResponse;
+import com.f1v3.response.PostResponse;
 import com.f1v3.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @GetMapping("/posts/{postId}")
-    public Post getPost(@PathVariable("postId") Long id) {
+    public PostResponse getPost(@PathVariable("postId") Long id) {
         return postService.get(id);
     }
 

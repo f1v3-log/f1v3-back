@@ -1,7 +1,7 @@
 package com.f1v3.controller;
 
 import com.f1v3.domain.Post;
-import com.f1v3.dto.request.PostCreateRequest;
+import com.f1v3.request.PostCreateRequest;
 import com.f1v3.repository.PostRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,10 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -99,7 +99,7 @@ class PostControllerTest {
         mockMvc.perform(post("/posts")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andDo(print());
 
         // then
@@ -115,18 +115,18 @@ class PostControllerTest {
     void testGet() throws Exception {
         // given
         Post post = Post.builder()
-                .title("foo")
+                .title("123456789012345")
                 .content("bar")
                 .build();
 
         postRepository.save(post);
 
         // expected
-        mockMvc.perform(MockMvcRequestBuilders.get("/posts/{postId}", post.getId())
+        mockMvc.perform(get("/posts/{postId}", post.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(post.getId()))
-                .andExpect(jsonPath("$.title").value(post.getTitle()))
+                .andExpect(jsonPath("$.title").value("1234567890"))
                 .andExpect(jsonPath("$.content").value(post.getContent()))
                 .andDo(print());
     }
