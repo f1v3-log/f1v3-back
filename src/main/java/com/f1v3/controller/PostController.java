@@ -1,5 +1,6 @@
 package com.f1v3.controller;
 
+import com.f1v3.domain.Post;
 import com.f1v3.dto.request.PostCreateRequest;
 import com.f1v3.dto.response.PostCreateResponse;
 import com.f1v3.service.PostService;
@@ -8,9 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -30,4 +29,13 @@ public class PostController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @GetMapping("/posts/{postId}")
+    public Post getPost(@PathVariable("postId") Long id) {
+        return postService.get(id);
+    }
+    /**
+     * 글 전체 조회 메서드
+     */
+//    @GetMapping("/posts")
 }

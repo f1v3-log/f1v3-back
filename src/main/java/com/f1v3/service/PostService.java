@@ -31,4 +31,15 @@ public class PostService {
 
         return new PostCreateResponse(post.getId());
     }
+
+    /**
+     * 게시글 단건 조회 메서드입니다.
+     *
+     * @param id 게시글 ID
+     * @return 게시글
+     */
+    public Post get(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+    }
 }

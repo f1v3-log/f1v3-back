@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -107,5 +108,26 @@ class PostControllerTest {
         Post post = postRepository.findAll().get(0);
         assertEquals("제목입니다.", post.getTitle());
         assertEquals("내용입니다.", post.getContent());
+    }
+
+    @Test
+    @DisplayName("글 1개 조회")
+    void testGet() throws Exception {
+        // given
+        Post post = Post.builder()
+                .title("foo")
+                .content("bar")
+                .build();
+
+        postRepository.save(post);
+
+        // expected
+        mockMvc.perform(MockMvcRequestBuilders.get("/posts/{postId}", post.getId())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(post.getId()))
+                .andExpect(jsonPath("$.title").value(post.getTitle()))
+                .andExpect(jsonPath("$.content").value(post.getContent()))
+                .andDo(print());
     }
 }
