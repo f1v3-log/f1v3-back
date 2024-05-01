@@ -34,8 +34,5 @@ public class PostController {
     public Post getPost(@PathVariable("postId") Long id) {
         return postService.get(id);
     }
-    /**
-     * 글 전체 조회 메서드
-     */
-//    @GetMapping("/posts")
+
 }
