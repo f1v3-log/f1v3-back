@@ -1,14 +1,16 @@
 package com.f1v3.service;
 
 import com.f1v3.domain.Post;
+import com.f1v3.repository.PostRepository;
 import com.f1v3.request.PostCreateRequest;
 import com.f1v3.response.PostResponse;
-import com.f1v3.repository.PostRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -65,5 +67,30 @@ class PostServiceTest {
         assertEquals(1L, postRepository.count());
         assertEquals("foo", response.getTitle());
         assertEquals("bar", response.getContent());
+    }
+
+    @Test
+    @DisplayName("글 여러개 조회")
+    void getManyPost() {
+        // given
+        Post requestPost1 = Post.builder()
+                .title("foo1")
+                .content("bar2")
+                .build();
+
+        postRepository.save(requestPost1);
+
+        Post requestPost2 = Post.builder()
+                .title("foo2")
+                .content("bar2")
+                .build();
+
+        postRepository.save(requestPost2);
+
+        // when
+        List<PostResponse> posts = postService.getList();
+
+        // then
+        assertEquals(2, posts.size());
     }
 }

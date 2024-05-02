@@ -1,8 +1,8 @@
 package com.f1v3.controller;
 
 import com.f1v3.domain.Post;
-import com.f1v3.request.PostCreateRequest;
 import com.f1v3.repository.PostRepository;
+import com.f1v3.request.PostCreateRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.List;
+
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -114,12 +117,10 @@ class PostControllerTest {
     @DisplayName("글 1개 조회")
     void testGet() throws Exception {
         // given
-        Post post = Post.builder()
+        Post post = postRepository.save(Post.builder()
                 .title("123456789012345")
                 .content("bar")
-                .build();
-
-        postRepository.save(post);
+                .build());
 
         // expected
         mockMvc.perform(get("/posts/{postId}", post.getId())
@@ -130,4 +131,38 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.content").value(post.getContent()))
                 .andDo(print());
     }
+
+    @Test
+    @DisplayName("글 1개 조회")
+    void testGetList() throws Exception {
+        // given
+        Post post1 = Post.builder()
+                .title("title_1")
+                .content("content_1")
+                .build();
+
+
+        Post post2 = Post.builder()
+                .title("title_2")
+                .content("content_2")
+                .build();
+
+        postRepository.saveAll(List.of(post1, post2));
+
+        // expected
+        mockMvc.perform(get("/posts")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$.length()", is(2)),
+                        jsonPath("$[0].id").value(post1.getId()),
+                        jsonPath("$[0].title").value(post1.getTitle()),
+                        jsonPath("$[0].content").value(post1.getContent()),
+                        jsonPath("$[1].id").value(post2.getId()),
+                        jsonPath("$[1].title").value(post2.getTitle()),
+                        jsonPath("$[1].content").value(post2.getContent())
+                )
+                .andDo(print());
+    }
+
 }

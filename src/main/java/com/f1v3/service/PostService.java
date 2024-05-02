@@ -1,13 +1,15 @@
 package com.f1v3.service;
 
 import com.f1v3.domain.Post;
+import com.f1v3.repository.PostRepository;
 import com.f1v3.request.PostCreateRequest;
 import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
-import com.f1v3.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -49,5 +51,14 @@ public class PostService {
                 .content(post.getContent())
                 .build();
 
+    }
+
+    /**
+     * 게시글 다중 조회 메서드입니다.
+     */
+    public List<PostResponse> getList() {
+        return postRepository.findAll().stream()
+                .map(PostResponse::new)
+                .toList();
     }
 }
