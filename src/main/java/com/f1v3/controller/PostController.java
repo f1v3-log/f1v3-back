@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -24,15 +23,20 @@ public class PostController {
      * @return status : 201(CREATED), body : 생성된 게시글 번호
      */
     @PostMapping("/posts")
-    public ResponseEntity<PostCreateResponse> createPost(@RequestBody @Valid PostCreateRequest request) {
-        PostCreateResponse response = postService.write(request);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    @ResponseStatus(HttpStatus.CREATED)
+    public PostCreateResponse createPost(@RequestBody @Valid PostCreateRequest request) {
+        return postService.write(request);
     }
 
+    /**
+     * 게시글 단건 조회 메서드.
+     *
+     * @param postId 게시글 ID
+     * @return status : 200 (OK), body: 게시글 응답
+     */
     @GetMapping("/posts/{postId}")
-    public PostResponse getPost(@PathVariable("postId") Long id) {
-        return postService.get(id);
+    @ResponseStatus(HttpStatus.OK)
+    public PostResponse getPost(@PathVariable Long postId) {
+        return postService.get(postId);
     }
-
 }
