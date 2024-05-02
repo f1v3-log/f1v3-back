@@ -27,13 +27,4 @@ public class PostCreateRequest {
         this.title = title;
         this.content = content;
     }
-
-    public PostCreateRequest changeTitle(String title) {
-        return PostCreateRequest.builder()
-                .title(title)
-                .content(this.content)
-                .build();
-    }
-
-
 }
