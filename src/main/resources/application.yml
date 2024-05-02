@@ -1,1 +1,5 @@
-spring.application.name=f1v3
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
