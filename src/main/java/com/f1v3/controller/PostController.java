@@ -7,6 +7,7 @@ import com.f1v3.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,7 +48,7 @@ public class PostController {
      */
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
-    public List<PostResponse> getList() {
-        return postService.getList();
+    public List<PostResponse> getList(Pageable pageable) {
+        return postService.getList(pageable);
     }
 }

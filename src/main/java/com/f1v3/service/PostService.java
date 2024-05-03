@@ -7,6 +7,7 @@ import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -56,8 +57,8 @@ public class PostService {
     /**
      * 게시글 다중 조회 메서드입니다.
      */
-    public List<PostResponse> getList() {
-        return postRepository.findAll().stream()
+    public List<PostResponse> getList(Pageable pageable) {
+        return postRepository.findAll(pageable).stream()
                 .map(PostResponse::new)
                 .toList();
     }

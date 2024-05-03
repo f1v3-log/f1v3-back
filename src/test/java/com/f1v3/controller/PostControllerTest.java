@@ -15,6 +15,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -136,31 +138,24 @@ class PostControllerTest {
     @DisplayName("글 1개 조회")
     void testGetList() throws Exception {
         // given
-        Post post1 = Post.builder()
-                .title("title_1")
-                .content("content_1")
-                .build();
+        List<Post> requestPosts = IntStream.range(1, 31)
+                .mapToObj(i -> Post.builder()
+                        .title("f1v3 title - " + i)
+                        .content("구구가가 - " + i)
+                        .build())
+                .collect(Collectors.toList());
 
-
-        Post post2 = Post.builder()
-                .title("title_2")
-                .content("content_2")
-                .build();
-
-        postRepository.saveAll(List.of(post1, post2));
+        postRepository.saveAll(requestPosts);
 
         // expected
-        mockMvc.perform(get("/posts")
+        mockMvc.perform(get("/posts?page=1&sort=id,desc")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
-                        jsonPath("$.length()", is(2)),
-                        jsonPath("$[0].id").value(post1.getId()),
-                        jsonPath("$[0].title").value(post1.getTitle()),
-                        jsonPath("$[0].content").value(post1.getContent()),
-                        jsonPath("$[1].id").value(post2.getId()),
-                        jsonPath("$[1].title").value(post2.getTitle()),
-                        jsonPath("$[1].content").value(post2.getContent())
+                        jsonPath("$.length()", is(5)),
+                        jsonPath("$[0].id").value(30),
+                        jsonPath("$[0].title").value("f1v3 title - 30"),
+                        jsonPath("$[0].content").value("구구가가 - 30")
                 )
                 .andDo(print());
     }
