@@ -1,13 +1,13 @@
 package com.f1v3.controller;
 
 import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostSearch;
 import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
 import com.f1v3.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,7 +48,7 @@ public class PostController {
      */
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
-    public List<PostResponse> getList(Pageable pageable) {
-        return postService.getList(pageable);
+    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
+        return postService.getList(postSearch);
     }
 }

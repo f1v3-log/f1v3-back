@@ -3,15 +3,13 @@ package com.f1v3.service;
 import com.f1v3.domain.Post;
 import com.f1v3.repository.PostRepository;
 import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostSearch;
 import com.f1v3.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,16 +85,16 @@ class PostServiceTest {
 
         postRepository.saveAll(requestPosts);
 
-        Pageable pageable = PageRequest.of(0, 5, Sort.by("id").descending());
-
         // when
-        List<PostResponse> posts = postService.getList(pageable);
+        PostSearch postSearch = PostSearch.builder()
+                .page(1)
+                .build();
+
+        List<PostResponse> posts = postService.getList(postSearch);
 
         // then
-        assertEquals(5L, posts.size());
+        assertEquals(10L, posts.size());
         assertEquals("f1v3 title - 30", posts.get(0).getTitle());
-        assertEquals("f1v3 title - 26", posts.get(4).getTitle());
-
     }
 
 }

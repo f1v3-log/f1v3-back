@@ -135,10 +135,10 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 1개 조회")
+    @DisplayName("글 여러개 조회")
     void testGetList() throws Exception {
         // given
-        List<Post> requestPosts = IntStream.range(1, 31)
+        List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i -> Post.builder()
                         .title("f1v3 title - " + i)
                         .content("구구가가 - " + i)
@@ -148,16 +148,40 @@ class PostControllerTest {
         postRepository.saveAll(requestPosts);
 
         // expected
-        mockMvc.perform(get("/posts?page=1&sort=id,desc")
+        mockMvc.perform(get("/posts?page=1&size=10")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
-                        jsonPath("$.length()", is(5)),
-                        jsonPath("$[0].id").value(30),
-                        jsonPath("$[0].title").value("f1v3 title - 30"),
-                        jsonPath("$[0].content").value("구구가가 - 30")
+                        jsonPath("$.length()", is(10)),
+                        jsonPath("$[0].title").value("f1v3 title - 19"),
+                        jsonPath("$[0].content").value("구구가가 - 19")
                 )
                 .andDo(print());
     }
 
+
+    @Test
+    @DisplayName("글 여러개 조회 - 페이지 0으로 요청시 첫 페이지를 가져옴")
+    void testGetZeroPage() throws Exception {
+        // given
+        List<Post> requestPosts = IntStream.range(0, 20)
+                .mapToObj(i -> Post.builder()
+                        .title("f1v3 title - " + i)
+                        .content("구구가가 - " + i)
+                        .build())
+                .collect(Collectors.toList());
+
+        postRepository.saveAll(requestPosts);
+
+        // expected
+        mockMvc.perform(get("/posts?page=0&size=10")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpectAll(
+                        jsonPath("$.length()", is(10)),
+                        jsonPath("$[0].title").value("f1v3 title - 19"),
+                        jsonPath("$[0].content").value("구구가가 - 19")
+                )
+                .andDo(print());
+    }
 }

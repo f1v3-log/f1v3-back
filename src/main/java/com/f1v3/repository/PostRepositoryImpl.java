@@ -21,7 +21,7 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
         return from(post)
                 .orderBy(post.id.desc())
                 .limit(postSearch.getSize())
-                .offset((long) (postSearch.getPage() - 1) * postSearch.getSize())
+                .offset(postSearch.getOffset())
                 .fetch();
     }
 }

@@ -3,11 +3,11 @@ package com.f1v3.service;
 import com.f1v3.domain.Post;
 import com.f1v3.repository.PostRepository;
 import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostSearch;
 import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -55,10 +55,10 @@ public class PostService {
     }
 
     /**
-     * 게시글 다중 조회 메서드입니다.
+     * 페이징 처리된 게시글 다중 조회 메서드입니다.
      */
-    public List<PostResponse> getList(Pageable pageable) {
-        return postRepository.findAll(pageable).stream()
+    public List<PostResponse> getList(PostSearch postSearch) {
+        return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .toList();
     }
