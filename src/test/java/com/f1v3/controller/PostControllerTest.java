@@ -2,7 +2,8 @@ package com.f1v3.controller;
 
 import com.f1v3.domain.Post;
 import com.f1v3.repository.PostRepository;
-import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostCreate;
+import com.f1v3.request.PostEdit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -10,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -20,8 +20,8 @@ import java.util.stream.IntStream;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -50,7 +50,7 @@ class PostControllerTest {
     void post_response_test() throws Exception {
 
         // given
-        PostCreateRequest request = PostCreateRequest.builder()
+        PostCreate request = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .build();
@@ -59,7 +59,7 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(print());
@@ -71,7 +71,7 @@ class PostControllerTest {
     void post_null_check() throws Exception {
 
         // given
-        PostCreateRequest request = PostCreateRequest.builder()
+        PostCreate request = PostCreate.builder()
                 .content("내용입니다.")
                 .build();
 
@@ -79,7 +79,7 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
@@ -93,7 +93,7 @@ class PostControllerTest {
     void post_db_test() throws Exception {
 
         // given
-        PostCreateRequest request = PostCreateRequest.builder()
+        PostCreate request = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .build();
@@ -102,7 +102,7 @@ class PostControllerTest {
 
         // when
         mockMvc.perform(post("/posts")
-                        .contentType(MediaType.APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isCreated())
                 .andDo(print());
@@ -126,7 +126,7 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(get("/posts/{postId}", post.getId())
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.title").value("1234567890"))
@@ -149,7 +149,7 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(get("/posts?page=1&size=10")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
                         jsonPath("$.length()", is(10)),
@@ -175,13 +175,37 @@ class PostControllerTest {
 
         // expected
         mockMvc.perform(get("/posts?page=0&size=10")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpectAll(
                         jsonPath("$.length()", is(10)),
                         jsonPath("$[0].title").value("f1v3 title - 19"),
                         jsonPath("$[0].content").value("구구가가 - 19")
                 )
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 제목 수정")
+    void editPostTitle() throws Exception {
+        // given
+        Post post = Post.builder().
+                title("f1v3")
+                .content("가나다라")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("승조정")
+                .content("가나다라")
+                .build();
+
+        // expected
+        mockMvc.perform(patch("/posts/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postEdit)))
+                .andExpect(status().isOk())
                 .andDo(print());
     }
 }

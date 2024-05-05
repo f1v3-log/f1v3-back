@@ -1,6 +1,7 @@
 package com.f1v3.controller;
 
-import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostCreate;
+import com.f1v3.request.PostEdit;
 import com.f1v3.request.PostSearch;
 import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
@@ -27,7 +28,7 @@ public class PostController {
      */
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
-    public PostCreateResponse createPost(@RequestBody @Valid PostCreateRequest request) {
+    public PostCreateResponse createPost(@RequestBody @Valid PostCreate request) {
         return postService.write(request);
     }
 
@@ -44,7 +45,8 @@ public class PostController {
     }
 
     /**
-     * 게시글 다중 조회 (Pagination)
+     * 게시글 다중 조회 (Pagination) 메서드.
+     *
      * @param postSearch 게시글 검색 조건
      * @return status : 200 (OK), body: 게시글 응답 리스트
      */
@@ -52,5 +54,17 @@ public class PostController {
     @ResponseStatus(HttpStatus.OK)
     public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
         return postService.getList(postSearch);
+    }
+
+    /**
+     * 게시글 수정 메서드.
+     *
+     * @param postId  게시글 ID
+     * @param request 게시글 수정 내용 객체
+     */
+    @PatchMapping("/posts/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
+        postService.edit(postId, request);
     }
 }

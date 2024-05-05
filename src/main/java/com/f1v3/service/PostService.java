@@ -1,11 +1,14 @@
 package com.f1v3.service;
 
 import com.f1v3.domain.Post;
+import com.f1v3.domain.PostEditor;
 import com.f1v3.repository.PostRepository;
-import com.f1v3.request.PostCreateRequest;
+import com.f1v3.request.PostCreate;
+import com.f1v3.request.PostEdit;
 import com.f1v3.request.PostSearch;
 import com.f1v3.response.PostCreateResponse;
 import com.f1v3.response.PostResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,7 +27,7 @@ public class PostService {
      *
      * @param postCreate 게시글 제목 및 내용을 담은 DTO
      */
-    public PostCreateResponse write(PostCreateRequest postCreate) {
+    public PostCreateResponse write(PostCreate postCreate) {
 
         Post post = Post.builder()
                 .title(postCreate.getTitle())
@@ -61,5 +64,23 @@ public class PostService {
         return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
                 .toList();
+    }
+
+    /**
+     * 게시글 수정
+     */
+    @Transactional
+    public void edit(Long id, PostEdit postEdit) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        PostEditor.PostEditorBuilder editorBuilder = post.toEditor();
+
+        PostEditor postEditor = editorBuilder
+                .title(postEdit.getTitle())
+                .content(postEdit.getContent())
+                .build();
+
+        post.edit(postEditor);
     }
 }

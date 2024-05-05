@@ -7,6 +7,9 @@ import lombok.Setter;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
+/**
+ * 게시글 조회 조건 클래스.
+ */
 @Getter
 @Setter
 @Builder
