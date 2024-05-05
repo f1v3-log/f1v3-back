@@ -13,7 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class PostCreateRequest {
+public class PostCreate {
 
     @NotBlank(message = "title은 필수 값입니다.")
     private final String title;
@@ -23,7 +23,7 @@ public class PostCreateRequest {
 
 
     @Builder
-    public PostCreateRequest(String title, String content) {
+    public PostCreate(String title, String content) {
         this.title = title;
         this.content = content;
     }
