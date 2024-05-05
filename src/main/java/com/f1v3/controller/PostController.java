@@ -44,7 +44,9 @@ public class PostController {
     }
 
     /**
-     * 게시글 다중 조회 메서드.
+     * 게시글 다중 조회 (Pagination)
+     * @param postSearch 게시글 검색 조건
+     * @return status : 200 (OK), body: 게시글 응답 리스트
      */
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
