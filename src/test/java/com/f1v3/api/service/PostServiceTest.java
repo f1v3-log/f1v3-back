@@ -1,11 +1,11 @@
-package com.f1v3.service;
+package com.f1v3.api.service;
 
-import com.f1v3.domain.Post;
-import com.f1v3.repository.PostRepository;
-import com.f1v3.request.PostCreate;
-import com.f1v3.request.PostEdit;
-import com.f1v3.request.PostSearch;
-import com.f1v3.response.PostResponse;
+import com.f1v3.api.domain.Post;
+import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.request.PostCreate;
+import com.f1v3.api.request.PostEdit;
+import com.f1v3.api.request.PostSearch;
+import com.f1v3.api.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

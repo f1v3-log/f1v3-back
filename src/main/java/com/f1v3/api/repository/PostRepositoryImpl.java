@@ -1,8 +1,8 @@
-package com.f1v3.repository;
+package com.f1v3.api.repository;
 
-import com.f1v3.domain.Post;
-import com.f1v3.domain.QPost;
-import com.f1v3.request.PostSearch;
+import com.f1v3.api.domain.Post;
+import com.f1v3.api.domain.QPost;
+import com.f1v3.api.request.PostSearch;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -15,6 +15,7 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
 
     /**
      * 게시글 리스트 조회 메서드입니다.
+     *
      * @param postSearch 게시글 검색 조건
      * @return 게시글 리스트
      */

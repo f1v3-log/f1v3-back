@@ -1,11 +1,11 @@
-package com.f1v3.controller;
+package com.f1v3.api.controller;
 
-import com.f1v3.request.PostCreate;
-import com.f1v3.request.PostEdit;
-import com.f1v3.request.PostSearch;
-import com.f1v3.response.PostCreateResponse;
-import com.f1v3.response.PostResponse;
-import com.f1v3.service.PostService;
+import com.f1v3.api.request.PostCreate;
+import com.f1v3.api.request.PostEdit;
+import com.f1v3.api.request.PostSearch;
+import com.f1v3.api.response.PostCreateResponse;
+import com.f1v3.api.response.PostResponse;
+import com.f1v3.api.service.PostService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

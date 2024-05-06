@@ -1,6 +1,6 @@
-package com.f1v3.controller;
+package com.f1v3.api.controller;
 
-import com.f1v3.response.ErrorResponse;
+import com.f1v3.api.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

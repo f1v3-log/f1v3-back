@@ -1,13 +1,13 @@
-package com.f1v3.service;
+package com.f1v3.api.service;
 
-import com.f1v3.domain.Post;
-import com.f1v3.domain.PostEditor;
-import com.f1v3.repository.PostRepository;
-import com.f1v3.request.PostCreate;
-import com.f1v3.request.PostEdit;
-import com.f1v3.request.PostSearch;
-import com.f1v3.response.PostCreateResponse;
-import com.f1v3.response.PostResponse;
+import com.f1v3.api.domain.Post;
+import com.f1v3.api.domain.PostEditor;
+import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.request.PostCreate;
+import com.f1v3.api.request.PostEdit;
+import com.f1v3.api.request.PostSearch;
+import com.f1v3.api.response.PostCreateResponse;
+import com.f1v3.api.response.PostResponse;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

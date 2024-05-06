@@ -1,4 +1,4 @@
-package com.f1v3;
+package com.f1v3.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

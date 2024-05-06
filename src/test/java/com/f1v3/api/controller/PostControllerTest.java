@@ -1,9 +1,9 @@
-package com.f1v3.controller;
+package com.f1v3.api.controller;
 
-import com.f1v3.domain.Post;
-import com.f1v3.repository.PostRepository;
-import com.f1v3.request.PostCreate;
-import com.f1v3.request.PostEdit;
+import com.f1v3.api.domain.Post;
+import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.request.PostCreate;
+import com.f1v3.api.request.PostEdit;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -1,4 +1,4 @@
-package com.f1v3.domain;
+package com.f1v3.api.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

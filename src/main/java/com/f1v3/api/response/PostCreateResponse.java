@@ -1,4 +1,4 @@
-package com.f1v3.response;
+package com.f1v3.api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

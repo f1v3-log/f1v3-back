@@ -1,4 +1,4 @@
-package com.f1v3.request;
+package com.f1v3.api.request;
 
 import lombok.Builder;
 import lombok.Getter;

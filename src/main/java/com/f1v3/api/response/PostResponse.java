@@ -1,6 +1,6 @@
-package com.f1v3.response;
+package com.f1v3.api.response;
 
-import com.f1v3.domain.Post;
+import com.f1v3.api.domain.Post;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
