@@ -8,10 +8,10 @@ import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
 import com.f1v3.api.response.PostCreateResponse;
 import com.f1v3.api.response.PostResponse;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -27,6 +27,7 @@ public class PostService {
      *
      * @param postCreate 게시글 제목 및 내용을 담은 DTO
      */
+    @Transactional
     public PostCreateResponse write(PostCreate postCreate) {
 
         Post post = Post.builder()
@@ -45,6 +46,7 @@ public class PostService {
      * @param id 게시글 ID
      * @return 게시글
      */
+    @Transactional(readOnly = true)
     public PostResponse get(Long id) {
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
@@ -60,6 +62,7 @@ public class PostService {
     /**
      * 페이징 처리된 게시글 다중 조회 메서드입니다.
      */
+    @Transactional(readOnly = true)
     public List<PostResponse> getList(PostSearch postSearch) {
         return postRepository.getList(postSearch).stream()
                 .map(PostResponse::new)
