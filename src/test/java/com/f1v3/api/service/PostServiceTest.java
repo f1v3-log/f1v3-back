@@ -1,6 +1,7 @@
 package com.f1v3.api.service;
 
 import com.f1v3.api.domain.Post;
+import com.f1v3.api.exception.PostNotFound;
 import com.f1v3.api.repository.PostRepository;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
@@ -16,8 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PostServiceTest {
@@ -74,6 +74,23 @@ class PostServiceTest {
     }
 
     @Test
+    @DisplayName("글 1개 조회 - 존재하지 않는 글")
+    void getOnePost_Fail() {
+        // given
+        Post post = Post.builder()
+                .title("f1v3")
+                .content("hello, users!")
+                .build();
+
+        postRepository.save(post);
+
+
+        // expected
+        assertThrows(PostNotFound.class,
+                () -> postService.get(post.getId() + 1L));
+    }
+
+    @Test
     @DisplayName("글 첫 페이지 조회")
     void getPostPagination() {
         // given
@@ -126,6 +143,28 @@ class PostServiceTest {
     }
 
     @Test
+    @DisplayName("게시글 제목 수정 - 존재하지 않는 글")
+    void editPostTitle_Fail() {
+        // given
+        Post post = Post.builder().
+                title("f1v3")
+                .content("가나다라")
+                .build();
+
+        postRepository.save(post);
+
+        PostEdit postEdit = PostEdit.builder()
+                .title("승조정")
+                .content("가나다라")
+                .build();
+
+        // expected
+
+        assertThrows(PostNotFound.class,
+                () -> postService.edit(post.getId() + 1L, postEdit));
+    }
+
+    @Test
     @DisplayName("게시글 삭제")
     void deletePost() {
         // given
@@ -141,5 +180,21 @@ class PostServiceTest {
 
         // then
         assertEquals(0, postRepository.count());
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 - 존재하지 않는 글")
+    void deletePost_Fail() {
+        // given
+        Post post = Post.builder().
+                title("f1v3")
+                .content("가나다라")
+                .build();
+
+        postRepository.save(post);
+
+        // expected
+        assertThrows(PostNotFound.class,
+                () -> postService.delete(post.getId() + 1L));
     }
 }
