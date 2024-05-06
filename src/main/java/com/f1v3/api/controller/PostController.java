@@ -67,4 +67,15 @@ public class PostController {
     public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
         postService.edit(postId, request);
     }
+
+    /**
+     * 게시글 삭제 메서드.
+     *
+     * @param postId 게시글 ID
+     */
+    @DeleteMapping("/posts/{postId}")
+    @ResponseStatus(HttpStatus.OK)
+    public void delete(@PathVariable Long postId) {
+        postService.delete(postId);
+    }
 }

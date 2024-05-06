@@ -71,6 +71,9 @@ public class PostService {
 
     /**
      * 게시글 수정
+     *
+     * @param id       게시글 ID
+     * @param postEdit 게시글 수정 내용
      */
     @Transactional
     public void edit(Long id, PostEdit postEdit) {
@@ -85,5 +88,17 @@ public class PostService {
                 .build();
 
         post.edit(postEditor);
+    }
+
+    /**
+     * 게시글 삭제
+     *
+     * @param id 게시글 ID
+     */
+    public void delete(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 글입니다."));
+
+        postRepository.delete(post);
     }
 }
