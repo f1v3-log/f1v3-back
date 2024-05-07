@@ -1,5 +1,6 @@
 package com.f1v3.api.request;
 
+import com.f1v3.api.exception.InvalidRequest;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +27,11 @@ public class PostCreate {
     public PostCreate(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    public void validate() {
+        if (title.contains("광고")) {
+            throw new InvalidRequest();
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.exception.GeneralException;
 import com.f1v3.api.response.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -33,4 +35,15 @@ public class ExceptionController {
         return response;
     }
 
+
+    @ExceptionHandler(GeneralException.class)
+    public ResponseEntity<ErrorResponse> generalException(GeneralException e) {
+
+        ErrorResponse response = ErrorResponse.builder()
+                .code(String.valueOf(e.getStatusCode()))
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity.status(e.getStatusCode()).body(response);
+    }
 }

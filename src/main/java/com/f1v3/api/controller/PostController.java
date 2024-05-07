@@ -29,6 +29,7 @@ public class PostController {
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
     public PostCreateResponse createPost(@RequestBody @Valid PostCreate request) {
+        request.validate();
         return postService.write(request);
     }
 

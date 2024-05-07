@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -61,9 +62,28 @@ class PostControllerTest {
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andExpect(status().isCreated())
                 .andDo(print());
+    }
 
+    @Test
+    @DisplayName("게시글 작성시 제목에 '광고'는 포함될 수 없다.")
+    void post_response_fail() throws Exception {
+
+        // given
+        PostCreate request = PostCreate.builder()
+                .title("[광고] 무료 블로그%!#@$")
+                .content("$무료로 글을 작성할 수 있는 블로그$")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        // expected
+        mockMvc.perform(post("/posts")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
     }
 
     @Test
@@ -81,7 +101,7 @@ class PostControllerTest {
         mockMvc.perform(post("/posts")
                         .contentType(APPLICATION_JSON)
                         .content(json))
-                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.code").value("400"))
                 .andExpect(jsonPath("$.message").value("잘못된 요청입니다."))
                 .andExpect(jsonPath("$.validation.title").value("title은 필수 값입니다."))
@@ -131,6 +151,17 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.id").value(post.getId()))
                 .andExpect(jsonPath("$.title").value("1234567890"))
                 .andExpect(jsonPath("$.content").value(post.getContent()))
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 조회 - 존재하지 않는 게시글")
+    void testGet_Fail() throws Exception {
+
+        // expected
+        mockMvc.perform(get("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 
@@ -210,6 +241,24 @@ class PostControllerTest {
     }
 
     @Test
+    @DisplayName("글 수정 - 존재하지 않는 게시글")
+    void editPost_Fail() throws Exception {
+
+        // given
+        PostEdit postEdit = PostEdit.builder()
+                .title("승조정")
+                .content("가나다라")
+                .build();
+
+        // expected
+        mockMvc.perform(patch("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(postEdit)))
+                .andExpect(status().isNotFound())
+                .andDo(print());
+    }
+
+    @Test
     @DisplayName("글 삭제")
     void deletePost() throws Exception {
         // given
@@ -224,6 +273,17 @@ class PostControllerTest {
         mockMvc.perform(delete("/posts/{postId}", post.getId())
                         .contentType(APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("글 삭제 - 존재하지 않는 게시글")
+    void deletePost_Fail() throws Exception {
+
+        // expected
+        mockMvc.perform(delete("/posts/{postId}", 1L)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isNotFound())
                 .andDo(print());
     }
 }
