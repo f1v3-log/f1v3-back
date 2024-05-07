@@ -45,7 +45,7 @@ class PostControllerTest {
 
 
     @Test
-    @DisplayName("/posts 요청시 title, content 값이 정상이면 201(CREATED) 반환")
+    @DisplayName("게시글 작성 요청시 title, content 값이 정상이면 201(CREATED) 반환")
     void post_response_test() throws Exception {
 
         // given
