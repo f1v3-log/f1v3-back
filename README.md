@@ -11,7 +11,7 @@ Spring Boot + Vue.js를 사용하여 나의 기록을 남기기
 
 
 
-### Spring RestDocs 도입
+### Spring REST Docs 도입
 - 운영 코드에 영향
 - 테스트 케이스 작성에 따라 문서를 생성
   - 코드 수정에 따른 문서를 수정해야하는 문제점 해결
