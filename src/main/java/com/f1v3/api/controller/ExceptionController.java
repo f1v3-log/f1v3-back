@@ -39,11 +39,12 @@ public class ExceptionController {
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ErrorResponse> generalException(GeneralException e) {
 
-        ErrorResponse response = ErrorResponse.builder()
+        ErrorResponse body = ErrorResponse.builder()
                 .code(String.valueOf(e.getStatusCode()))
                 .message(e.getMessage())
+                .validation(e.getValidation())
                 .build();
 
-        return ResponseEntity.status(e.getStatusCode()).body(response);
+        return ResponseEntity.status(e.getStatusCode()).body(body);
     }
 }

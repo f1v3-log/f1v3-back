@@ -1,9 +1,18 @@
 package com.f1v3.api.exception;
 
+import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 모든 예외의 상위 클래스.
  */
+
+@Getter
 public abstract class GeneralException extends RuntimeException {
+
+    private final Map<String, String> validation = new HashMap<>();
 
     protected GeneralException(String message) {
         super(message);
@@ -14,4 +23,8 @@ public abstract class GeneralException extends RuntimeException {
     }
 
     public abstract int getStatusCode();
+
+    public void addValidation(String fieldName, String message) {
+        validation.put(fieldName, message);
+    }
 }

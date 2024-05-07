@@ -31,7 +31,7 @@ public class PostCreate {
 
     public void validate() {
         if (title.contains("광고")) {
-            throw new InvalidRequest();
+            throw new InvalidRequest("title", "제목에 광고를 포함할 수 없습니다.");
         }
     }
 }
