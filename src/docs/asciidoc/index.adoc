@@ -1,0 +1,19 @@
+= F1V3Log API
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc-title: 목차
+:toc: left
+:toclevels: 5
+:sectnums:
+
+== 게시글 단건 조회 API
+
+=== Request
+include::{snippets}/index/http-request.adoc[]
+
+=== Response
+include::{snippets}/index/http-response.adoc[]
+
+=== curl
+include::{snippets}/index/curl-request.adoc[]
