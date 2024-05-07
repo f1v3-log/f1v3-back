@@ -35,7 +35,11 @@ public class ExceptionController {
         return response;
     }
 
-
+    /**
+     * 전역 예외 처리
+     * @param e GeneralException (모든 예외의 최상위 클래스)
+     * @return ErrorResponse (에러 응답 - code, message, validation)
+     */
     @ExceptionHandler(GeneralException.class)
     public ResponseEntity<ErrorResponse> generalException(GeneralException e) {
 
