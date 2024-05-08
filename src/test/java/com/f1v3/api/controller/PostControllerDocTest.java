@@ -56,7 +56,7 @@ class PostControllerDocTest {
         mockMvc.perform(get("/posts/{postId}", 1L)
                         .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("post/get", pathParameters(
+                .andDo(document("post/inquiry", pathParameters(
                                 parameterWithName("postId").description("게시글 ID")
                         ),
                         responseFields(
