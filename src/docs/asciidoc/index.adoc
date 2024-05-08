@@ -2,10 +2,10 @@
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
-:toc-title: 목차
 :toc: left
 :toclevels: 5
 :sectnums:
+:seclinks:
 
 == 게시글 단건 조회
 

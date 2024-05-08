@@ -447,18 +447,16 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="toc" class="toc2">
 <div id="toctitle">목차</div>
 <ul class="sectlevel1">
-<li><a href="#_게시글_단건_조회_api">1. 게시글 단건 조회 API</a>
+<li><a href="#_게시글_단건_조회">1. 게시글 단건 조회</a>
 <ul class="sectlevel2">
 <li><a href="#_request">1.1. Request</a></li>
 <li><a href="#_response">1.2. Response</a></li>
-<li><a href="#_curl">1.3. curl</a></li>
 </ul>
 </li>
-<li><a href="#_게시글_등록_api">2. 게시글 등록 API</a>
+<li><a href="#_게시글_등록">2. 게시글 등록</a>
 <ul class="sectlevel2">
 <li><a href="#_request_2">2.1. Request</a></li>
 <li><a href="#_response_2">2.2. Response</a></li>
-<li><a href="#_curl_2">2.3. curl</a></li>
 </ul>
 </li>
 </ul>
@@ -466,7 +464,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_게시글_단건_조회_api">1. 게시글 단건 조회 API</h2>
+<h2 id="_게시글_단건_조회">1. 게시글 단건 조회</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_request">1.1. Request</h3>
@@ -540,19 +538,10 @@ Content-Length: 64
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_curl">1.3. curl</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://api.f1v3.com/posts/1' -i -X GET \
-    -H 'Accept: application/json'</code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_게시글_등록_api">2. 게시글 등록 API</h2>
+<h2 id="_게시글_등록">2. 게시글 등록</h2>
 <div class="sectionbody">
 <div class="sect2">
 <h3 id="_request_2">2.1. Request</h3>
@@ -569,27 +558,35 @@ Host: api.f1v3.com
 </div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
-<col style="width: 33.3333%;">
-<col style="width: 33.3333%;">
-<col style="width: 33.3334%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
+<col style="width: 20%;">
 </colgroup>
 <thead>
 <tr>
 <th class="tableblock halign-left valign-top">Path</th>
 <th class="tableblock halign-left valign-top">Type</th>
 <th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Optional</th>
+<th class="tableblock halign-left valign-top">Constraint</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>title</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">title</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">제목</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">멋진 제목을 입력해주세요.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">content</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">내용</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Y</p></td>
+<td class="tableblock halign-left valign-top"></td>
 </tr>
 </tbody>
 </table>
@@ -627,24 +624,13 @@ Content-Length: 8
 </tbody>
 </table>
 </div>
-<div class="sect2">
-<h3 id="_curl_2">2.3. curl</h3>
-<div class="listingblock">
-<div class="content">
-<pre class="highlightjs highlight"><code class="language-bash hljs" data-lang="bash">$ curl 'https://api.f1v3.com/posts' -i -X POST \
-    -H 'Content-Type: application/json;charset=UTF-8' \
-    -H 'Accept: application/json' \
-    -d '{"title":"f1v3.log","content":"안녕하세요 승조입니다 :)"}'</code></pre>
-</div>
-</div>
-</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2024-05-08 23:22:53 +0900
+Last updated 2024-05-08 23:26:52 +0900
 </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.3/highlight.min.js"></script>
