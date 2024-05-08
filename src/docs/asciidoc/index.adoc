@@ -1,4 +1,4 @@
-= F1V3Log API
+= f1v3-log API
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
