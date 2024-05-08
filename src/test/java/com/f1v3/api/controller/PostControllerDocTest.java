@@ -2,39 +2,42 @@ package com.f1v3.api.controller;
 
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.repository.PostRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.f1v3.api.request.PostCreate;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "api.f1v3.com", uriPort = 443)
 @ExtendWith(RestDocumentationExtension.class)
 class PostControllerDocTest {
 
-    private MockMvc mockMvc;
+    @Autowired
+    MockMvc mockMvc;
 
     @Autowired
-    private PostRepository postRepository;
+    PostRepository postRepository;
 
-    @BeforeEach
-    void setUp(WebApplicationContext webApplicationContext, RestDocumentationContextProvider restDocumentation) {
-        this.mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)
-                .apply(documentationConfiguration(restDocumentation))
-                .build();
-    }
+    @Autowired
+    ObjectMapper objectMapper;
 
     @Test
     @DisplayName("글 단건 조회 테스트")
@@ -50,9 +53,46 @@ class PostControllerDocTest {
 
 
         // expected
-        this.mockMvc.perform(get("/posts/{postId}", 1L)
-                        .accept(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/posts/{postId}", 1L)
+                        .accept(APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andDo(document("index"));
+                .andDo(document("post/get", pathParameters(
+                                parameterWithName("postId").description("게시글 ID")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("게시글 ID"),
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("content").description("내용")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("글 등록 테스트")
+    void testPost() throws Exception {
+
+        // given
+        PostCreate post = PostCreate.builder()
+                .title("f1v3.log")
+                .content("안녕하세요 승조입니다 :)")
+                .build();
+
+        String json = objectMapper.writeValueAsString(post);
+
+        // expected
+        mockMvc.perform(post("/posts")
+                        .accept(APPLICATION_JSON)
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isCreated())
+                .andDo(document("post/create",
+                        requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("content").description("내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").description("게시글 ID")
+                        )
+                ));
     }
 }

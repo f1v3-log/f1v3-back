@@ -10,10 +10,25 @@
 == 게시글 단건 조회 API
 
 === Request
-include::{snippets}/index/http-request.adoc[]
+include::{snippets}/post/get/http-request.adoc[]
+include::{snippets}/post/get/path-parameters.adoc[]
 
 === Response
-include::{snippets}/index/http-response.adoc[]
+include::{snippets}/post/get/http-response.adoc[]
+include::{snippets}/post/get/response-fields.adoc[]
 
 === curl
-include::{snippets}/index/curl-request.adoc[]
+include::{snippets}/post/get/curl-request.adoc[]
+
+== 게시글 등록 API
+
+=== Request
+include::{snippets}/post/create/http-request.adoc[]
+include::{snippets}/post/create/request-fields.adoc[]
+
+=== Response
+include::{snippets}/post/create/http-response.adoc[]
+include::{snippets}/post/create/response-fields.adoc[]
+
+=== curl
+include::{snippets}/post/create/curl-request.adoc[]
