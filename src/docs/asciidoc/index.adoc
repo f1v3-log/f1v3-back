@@ -7,7 +7,7 @@
 :toclevels: 5
 :sectnums:
 
-== 게시글 단건 조회 API
+== 게시글 단건 조회
 
 === Request
 include::{snippets}/post/inquiry/http-request.adoc[]
@@ -17,7 +17,7 @@ include::{snippets}/post/inquiry/path-parameters.adoc[]
 include::{snippets}/post/inquiry/http-response.adoc[]
 include::{snippets}/post/inquiry/response-fields.adoc[]
 
-== 게시글 등록 API
+== 게시글 등록
 
 === Request
 include::{snippets}/post/create/http-request.adoc[]
