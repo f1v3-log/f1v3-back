@@ -85,7 +85,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청시 title 값은 필수다.")
+    @DisplayName("게시글 작성 요청시 title 값은 필수다.")
     void post_null_check() throws Exception {
 
         // given
@@ -107,7 +107,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("/posts 요청시 DB에 값이 저장된다.")
+    @DisplayName("게시글 작성 요청시 DB에 값이 저장된다.")
     void post_db_test() throws Exception {
 
         // given
@@ -134,7 +134,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 1개 조회")
+    @DisplayName("게시글 1개 조회")
     void testGet() throws Exception {
         // given
         Post post = postRepository.save(Post.builder()
@@ -153,7 +153,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 조회 - 존재하지 않는 게시글")
+    @DisplayName("게시글 조회 실패 - 존재하지 않는 게시글")
     void testGet_Fail() throws Exception {
 
         // expected
@@ -164,7 +164,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 여러개 조회")
+    @DisplayName("게시글 여러개 조회")
     void testGetList() throws Exception {
         // given
         List<Post> requestPosts = IntStream.range(0, 20)
@@ -190,7 +190,7 @@ class PostControllerTest {
 
 
     @Test
-    @DisplayName("글 여러개 조회 - 페이지 0으로 요청시 첫 페이지를 가져옴")
+    @DisplayName("게시글 여러개 조회 - 페이지 0으로 요청시 첫 페이지를 가져옴")
     void testGetZeroPage() throws Exception {
         // given
         List<Post> requestPosts = IntStream.range(0, 20)
@@ -215,7 +215,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 제목 수정")
+    @DisplayName("게시글 제목 수정")
     void editPostTitle() throws Exception {
         // given
         Post post = Post.builder().
@@ -239,7 +239,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 수정 - 존재하지 않는 게시글")
+    @DisplayName("게시글 수정 실패 - 존재하지 않는 게시글")
     void editPost_Fail() throws Exception {
 
         // given
@@ -257,7 +257,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 삭제")
+    @DisplayName("게시글 삭제")
     void deletePost() throws Exception {
         // given
         Post post = Post.builder().
@@ -275,7 +275,7 @@ class PostControllerTest {
     }
 
     @Test
-    @DisplayName("글 삭제 - 존재하지 않는 게시글")
+    @DisplayName("게시글 삭제 실패 - 존재하지 않는 게시글")
     void deletePost_Fail() throws Exception {
 
         // expected
@@ -284,4 +284,5 @@ class PostControllerTest {
                 .andExpect(status().isNotFound())
                 .andDo(print());
     }
+
 }
