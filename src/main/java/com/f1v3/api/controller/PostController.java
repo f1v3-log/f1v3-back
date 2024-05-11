@@ -21,6 +21,16 @@ public class PostController {
 
     private final PostService postService;
 
+    @GetMapping("/test")
+    public String test() {
+        return "hello";
+    }
+
+    @GetMapping("/f1v3")
+    public String f1v3() {
+        return "f1v3";
+    }
+
     /**
      * 게시글 생성 메서드.
      *
