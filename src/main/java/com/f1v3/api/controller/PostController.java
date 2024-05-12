@@ -1,5 +1,6 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.config.data.UserSession;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
@@ -21,14 +22,15 @@ public class PostController {
 
     private final PostService postService;
 
-    @GetMapping("/test")
-    public String test() {
-        return "hello";
+    @GetMapping("/f1v3")
+    public String f1v3(UserSession userSession) {
+        log.info(">> userSession = {}", userSession.name);
+        return userSession.name;
     }
 
-    @GetMapping("/f1v3")
-    public String f1v3() {
-        return "f1v3";
+    @GetMapping("/non-accessible")
+    public String nonAccessible() {
+        return "non-accessible";
     }
 
     /**

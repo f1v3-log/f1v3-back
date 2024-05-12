@@ -18,10 +18,9 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        log.info(">> preHandle : {}", request.getRequestURI());
-
-        String authorization = request.getHeader("Authorization");
-        if (Objects.nonNull(authorization) && "f1v3".equals(authorization)) {
+        String accessToken = request.getParameter("accessToken");
+        if (Objects.nonNull(accessToken) && !accessToken.isEmpty()) {
+            request.setAttribute("userName", accessToken);
             return true;
         }
 
