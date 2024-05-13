@@ -23,9 +23,9 @@ public class PostController {
     private final PostService postService;
 
     @GetMapping("/f1v3")
-    public String f1v3(UserSession userSession) {
-        log.info(">> userSession = {}", userSession.name);
-        return userSession.name;
+    public Long f1v3(UserSession userSession) {
+        log.info(">> userSession = {}", userSession.id);
+        return userSession.id;
     }
 
     @GetMapping("/non-accessible")
