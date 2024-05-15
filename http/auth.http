@@ -8,7 +8,7 @@ Content-Type: application/json
   "password": "1234"
 }
 
-### 인증 페이지 요청
+### 인증 페이지 요청 - 쿠키 사용
 GET http://localhost:8080/f1v3
 Content-Type: application/json
 Cookie: SESSION=3a1019a8-71e8-475b-8ae5-ae0032060be6

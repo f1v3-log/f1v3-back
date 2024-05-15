@@ -1,17 +1,18 @@
 package com.f1v3.api.controller;
 
 import com.f1v3.api.request.Login;
+import com.f1v3.api.response.SessionResponse;
 import com.f1v3.api.service.AuthService;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Duration;
+import javax.crypto.SecretKey;
+import java.util.Base64;
 
 @Slf4j
 @RestController
@@ -20,23 +21,25 @@ public class AuthController {
 
     private final AuthService authService;
 
+    private static final String KEY = "fcn6scvfFoTGXuHqED0YweeKeEusGu5at2y/Y8oAyFY=";
+
+    /**
+     * JWT 사용하여 로그인 처리
+     * @param login 로그인 정보
+     * @return status: 200 (OK)
+     */
     @PostMapping("/auth/login")
-    public ResponseEntity<Object> login(@RequestBody Login login) {
-        String accessToken = authService.signIn(login);
+    public SessionResponse login(@RequestBody Login login) {
+        Long userId = authService.signIn(login);
 
-        ResponseCookie cookie = ResponseCookie.from("SESSION", accessToken)
-                .domain("localhost") // TODO: Profile 별로 분리해보기!
-                .path("/")
-                .httpOnly(true)
-                .secure(false)
-                .maxAge(Duration.ofDays(30))
-                .sameSite("Strict")
-                .build();
+        // TODO : JWT Util 클래스를 통해 Key값 받아오기
+        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
 
-        log.info(">> cookie = {}", cookie);
+        String jws = Jwts.builder()
+                .subject(String.valueOf(userId))
+                .signWith(key)
+                .compact();
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, cookie.toString())
-                .build();
+        return new SessionResponse(jws);
     }
 }

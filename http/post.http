@@ -7,4 +7,4 @@ Content-Type: application/json
 
 GET http://localhost:8080/f1v3
 Content-Type: application/json
-Authorization: f1v3-token
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIn0.m_Erx9NqIJbON5I55XMy_NkIX8jywB_-hyFvHeX7wXE
