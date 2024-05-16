@@ -22,3 +22,11 @@ spring:
   sql:
     init:
       mode: always
+
+
+f1v3:
+  hello:
+    name: "seungjo"
+    home: "hwasun"
+    hobby: "programming"
+    age: 26

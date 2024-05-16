@@ -25,6 +25,7 @@ import java.util.Base64;
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
     private final SessionRepository sessionRepository;
+    private final AppConfig appConfig;
     private static final String KEY = "fcn6scvfFoTGXuHqED0YweeKeEusGu5at2y/Y8oAyFY=";
 
     @Override
@@ -34,6 +35,8 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+
+        log.info(">> appConfig = {}", appConfig);
 
         String jws = webRequest.getHeader("Authorization");
         if (Strings.isEmpty(jws)) {
