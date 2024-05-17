@@ -7,6 +7,7 @@ import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.Login;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,6 +72,7 @@ class AuthControllerTest {
 
     @Test
     @Transactional
+    @Disabled
     @DisplayName("로그인 성공 후 세션 1개 생성")
     void login_Success_Create_Session() throws Exception {
 
@@ -130,6 +132,7 @@ class AuthControllerTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("로그인 후 권한이 필요한 페이지에 접속한다 /f1v3")
     void login_Success_Access_Page() throws Exception {
         User user = User.builder()

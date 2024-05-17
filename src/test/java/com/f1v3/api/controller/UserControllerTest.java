@@ -38,7 +38,7 @@ class UserControllerTest {
         // given
         Signup signup = Signup.builder()
                 .name("승조데스")
-                .email("f1v3@kakao.com")
+                .email("test@test.com")
                 .password("1234")
                 .build();
 

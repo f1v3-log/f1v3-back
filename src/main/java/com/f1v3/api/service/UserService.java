@@ -1,6 +1,7 @@
 package com.f1v3.api.service;
 
 import com.f1v3.api.domain.User;
+import com.f1v3.api.exception.AlreadyExistsEmailException;
 import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.Signup;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,11 @@ public class UserService {
 
     @Transactional
     public void signup(Signup signup) {
+
+        if (userRepository.existsByEmail(signup.getEmail())) {
+            throw new AlreadyExistsEmailException();
+        }
+
         User user = User.builder()
                 .email(signup.getEmail())
                 .name(signup.getName())
