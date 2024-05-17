@@ -2,7 +2,6 @@ package com.f1v3.api.config;
 
 import com.f1v3.api.config.data.UserSession;
 import com.f1v3.api.exception.Unauthorized;
-import com.f1v3.api.repository.SessionRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
