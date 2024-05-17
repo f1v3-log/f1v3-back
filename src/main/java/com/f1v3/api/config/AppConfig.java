@@ -7,13 +7,5 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(prefix = "f1v3")
 public class AppConfig {
 
-    private Hello hello;
-
-    @Data
-    public static class Hello {
-        private String name;
-        private String home;
-        private String hobby;
-        private Long age;
-    }
+    private String jwtKey;
 }
