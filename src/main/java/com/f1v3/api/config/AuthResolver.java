@@ -19,6 +19,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -55,6 +56,12 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             log.info(">> claims = {}", claims);
 
             String userId = claims.getPayload().getSubject();
+
+            // 세션이 만료된 경우 예외 처리
+            Date expiration = claims.getPayload().getExpiration();
+            if (expiration.before(new Date())) {
+                throw new Unauthorized();
+            }
 
             return new UserSession(Long.parseLong(userId));
         } catch (JwtException e) {
