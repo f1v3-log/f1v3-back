@@ -18,14 +18,12 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Date;
 
 @Slf4j
 @RequiredArgsConstructor
 public class AuthResolver implements HandlerMethodArgumentResolver {
 
-    private final SessionRepository sessionRepository;
     private final AppConfig appConfig;
 
     @Override
@@ -36,18 +34,15 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        log.info(">> appConfig = {}", appConfig);
-
         String jws = webRequest.getHeader("Authorization");
         if (Strings.isEmpty(jws)) {
             throw new Unauthorized();
         }
 
-        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(appConfig.getJwtKey()));
-
-
         // jws 복호화 작업 필요
         try {
+            SecretKey key = Keys.hmacShaKeyFor(appConfig.getJwtKey());
+
             Jws<Claims> claims = Jwts.parser()
                     .verifyWith(key)
                     .build()
