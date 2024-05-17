@@ -26,7 +26,6 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
 
     private final SessionRepository sessionRepository;
     private final AppConfig appConfig;
-    private static final String KEY = "fcn6scvfFoTGXuHqED0YweeKeEusGu5at2y/Y8oAyFY=";
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -43,7 +42,7 @@ public class AuthResolver implements HandlerMethodArgumentResolver {
             throw new Unauthorized();
         }
 
-        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(appConfig.getJwtKey()));
 
 
         // jws 복호화 작업 필요

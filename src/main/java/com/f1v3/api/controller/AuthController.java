@@ -1,5 +1,6 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.config.AppConfig;
 import com.f1v3.api.request.Login;
 import com.f1v3.api.response.SessionResponse;
 import com.f1v3.api.service.AuthService;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
 import java.util.Base64;
+import java.util.Date;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
 
+    private final AppConfig appConfig;
     private final AuthService authService;
-
-    private static final String KEY = "fcn6scvfFoTGXuHqED0YweeKeEusGu5at2y/Y8oAyFY=";
 
     /**
      * JWT 사용하여 로그인 처리
@@ -32,12 +33,12 @@ public class AuthController {
     public SessionResponse login(@RequestBody Login login) {
         Long userId = authService.signIn(login);
 
-        // TODO : JWT Util 클래스를 통해 Key값 받아오기
-        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(KEY));
+        SecretKey key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(appConfig.getJwtKey()));
 
         String jws = Jwts.builder()
                 .subject(String.valueOf(userId))
                 .signWith(key)
+                .issuedAt(new Date())
                 .compact();
 
         return new SessionResponse(jws);
