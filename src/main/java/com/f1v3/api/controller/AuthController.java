@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.crypto.SecretKey;
@@ -17,6 +18,7 @@ import java.util.Date;
 
 @Slf4j
 @RestController
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -28,7 +30,7 @@ public class AuthController {
      * @param login 로그인 정보
      * @return status: 200 (OK)
      */
-    @PostMapping("/auth/login")
+    @PostMapping("/login")
     public SessionResponse login(@RequestBody Login login) {
         Long userId = authService.signIn(login);
 
