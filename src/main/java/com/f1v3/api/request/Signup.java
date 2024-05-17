@@ -1,5 +1,6 @@
 package com.f1v3.api.request;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,17 +11,15 @@ import lombok.Data;
  */
 
 @Data
+@Builder
 public class Signup {
-    private String account;
-    private String email;
-    private String password;
-    private String name;
 
-    @Builder
-    public Signup(String account, String email, String password, String name) {
-        this.account = account;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-    }
+    @NotBlank(message = "이메일을 입력해주세요.")
+    private String email;
+
+    @NotBlank(message = "패스워드를 입력해주세요.")
+    private String password;
+
+    @NotBlank(message = "이름을 입력해주세요.")
+    private String name;
 }
