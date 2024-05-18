@@ -1,5 +1,6 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.crypto.PasswordEncoder;
 import com.f1v3.api.domain.Session;
 import com.f1v3.api.domain.User;
 import com.f1v3.api.repository.SessionRepository;
@@ -50,10 +51,14 @@ class AuthControllerTest {
     @DisplayName("로그인 성공")
     void login_Success() throws Exception {
 
+        // given
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrypt("1234");
+
         userRepository.save(User.builder()
                 .name("seungjo")
                 .email("f1v3@kakao.com")
-                .password("1234")
+                .password(encryptedPassword)
                 .build());
 
         Login login = Login.builder()
@@ -63,6 +68,7 @@ class AuthControllerTest {
 
         String json = objectMapper.writeValueAsString(login);
 
+        // expected
         mockMvc.perform(post("/auth/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(json))
@@ -71,15 +77,19 @@ class AuthControllerTest {
     }
 
     @Test
-    @Transactional
     @Disabled
+    @Transactional
     @DisplayName("로그인 성공 후 세션 1개 생성")
     void login_Success_Create_Session() throws Exception {
+
+        // given
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
                 .name("seungjo")
                 .email("f1v3@kakao.com")
-                .password("1234")
+                .password(encryptedPassword)
                 .build();
 
         userRepository.save(user);
@@ -107,11 +117,14 @@ class AuthControllerTest {
     @Transactional
     @DisplayName("로그인 성공 후 세션 응답")
     void login_Success_Response_Session() throws Exception {
+        // given
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
                 .name("seungjo")
                 .email("f1v3@kakao.com")
-                .password("1234")
+                .password(encryptedPassword)
                 .build();
 
         userRepository.save(user);
@@ -135,10 +148,15 @@ class AuthControllerTest {
     @Disabled
     @DisplayName("로그인 후 권한이 필요한 페이지에 접속한다 /f1v3")
     void login_Success_Access_Page() throws Exception {
+
+        // given
+        PasswordEncoder encoder = new PasswordEncoder();
+        String encryptedPassword = encoder.encrypt("1234");
+
         User user = User.builder()
                 .name("seungjo")
                 .email("f1v3@kakao.com")
-                .password("1234")
+                .password(encryptedPassword)
                 .build();
 
         // 연관관계 설정
@@ -146,6 +164,7 @@ class AuthControllerTest {
 
         userRepository.save(user);
 
+        // expected
         mockMvc.perform(get("/f1v3")
                         .header("Authorization", session.getAccessToken())
                         .contentType(MediaType.APPLICATION_JSON))
@@ -156,6 +175,10 @@ class AuthControllerTest {
     @Test
     @DisplayName("로그인 후 검증되지 않은 세션 값인 경우 권한이 필요한 페이지에 접속 불가")
     void login_Not_Allow_Session() throws Exception {
+
+        // given
+
+
         User user = User.builder()
                 .name("seungjo")
                 .email("f1v3@kakao.com")
