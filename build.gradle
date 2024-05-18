@@ -36,6 +36,7 @@ dependencies {
 
     // Spring Security Crypto
     implementation 'org.springframework.security:spring-security-crypto'
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.78'
 
 
     // querydsl
