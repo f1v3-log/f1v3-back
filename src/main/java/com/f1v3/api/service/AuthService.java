@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
 
     @Transactional
     public Long signIn(Login login) {
@@ -22,15 +23,12 @@ public class AuthService {
         User user = userRepository.findByEmail(login.getEmail())
                 .orElseThrow(InvalidSignInInformation::new);
 
-        PasswordEncoder encoder = new PasswordEncoder();
         boolean isMatch = encoder.matches(login.getPassword(), user.getPassword());
 
         if (isMatch) {
             return user.getId();
         }
 
-        throw new
-
-                InvalidSignInInformation();
+        throw new InvalidSignInInformation();
     }
 }

@@ -1,11 +1,10 @@
 package com.f1v3.api.service;
 
-import com.f1v3.api.crypto.PasswordEncoder;
+import com.f1v3.api.crypto.ScryptPasswordEncoder;
 import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.InvalidSignInInformation;
 import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.Login;
-import com.f1v3.api.request.Signup;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -34,7 +33,7 @@ class AuthServiceTest {
     @DisplayName("로그인 성공")
     void login_Success() {
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
@@ -62,7 +61,7 @@ class AuthServiceTest {
     @DisplayName("로그인 실패 - 비밀번호 틀린 경우")
     void login_Invalid() {
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()

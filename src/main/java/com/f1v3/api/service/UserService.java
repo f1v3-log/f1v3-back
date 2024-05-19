@@ -14,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder encoder;
+
 
     @Transactional
     public void signup(Signup signup) {
@@ -23,7 +25,6 @@ public class UserService {
         }
 
         // 암호화 진행
-        PasswordEncoder encoder = new PasswordEncoder();
         String encryptedPassword = encoder.encrypt(signup.getPassword());
 
         User user = User.builder()

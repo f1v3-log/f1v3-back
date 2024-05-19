@@ -9,9 +9,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ActiveProfiles("test")
 @SpringBootTest
 class UserServiceTest {
 
@@ -42,13 +44,12 @@ class UserServiceTest {
         userService.signup(signup);
 
         // then
-
         assertEquals(1L, userRepository.count());
         User user = userRepository.findAll().iterator().next();
         assertAll(
                 () -> assertEquals(signup.getName(), user.getName()),
                 () -> assertEquals(signup.getEmail(), user.getEmail()),
-                () -> assertNotEquals(signup.getPassword(), user.getPassword()),
+                () -> assertEquals(signup.getPassword(), user.getPassword()),
                 () -> assertNotNull(user.getPassword())
         );
     }

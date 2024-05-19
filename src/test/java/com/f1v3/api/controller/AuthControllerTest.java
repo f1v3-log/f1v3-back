@@ -1,6 +1,6 @@
 package com.f1v3.api.controller;
 
-import com.f1v3.api.crypto.PasswordEncoder;
+import com.f1v3.api.crypto.ScryptPasswordEncoder;
 import com.f1v3.api.domain.Session;
 import com.f1v3.api.domain.User;
 import com.f1v3.api.repository.SessionRepository;
@@ -52,7 +52,7 @@ class AuthControllerTest {
     void login_Success() throws Exception {
 
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         userRepository.save(User.builder()
@@ -83,7 +83,7 @@ class AuthControllerTest {
     void login_Success_Create_Session() throws Exception {
 
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
@@ -118,7 +118,7 @@ class AuthControllerTest {
     @DisplayName("로그인 성공 후 세션 응답")
     void login_Success_Response_Session() throws Exception {
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
@@ -150,7 +150,7 @@ class AuthControllerTest {
     void login_Success_Access_Page() throws Exception {
 
         // given
-        PasswordEncoder encoder = new PasswordEncoder();
+        ScryptPasswordEncoder encoder = new ScryptPasswordEncoder();
         String encryptedPassword = encoder.encrypt("1234");
 
         User user = User.builder()
