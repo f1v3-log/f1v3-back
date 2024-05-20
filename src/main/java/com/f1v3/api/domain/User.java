@@ -7,8 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -27,20 +25,6 @@ public class User {
     private String password;
 
     private LocalDateTime createdAt;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Session> sessions = new ArrayList<>();
-
-    public Session addSession() {
-        // uuid
-        Session session = Session.builder()
-                .user(this)
-                .build();
-
-        sessions.add(session);
-
-        return session;
-    }
 
     @Builder
     public User(String name, String email, String password) {

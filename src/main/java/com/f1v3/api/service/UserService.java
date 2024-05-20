@@ -1,6 +1,5 @@
 package com.f1v3.api.service;
 
-import com.f1v3.api.crypto.PasswordEncoder;
 import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.AlreadyExistsEmailException;
 import com.f1v3.api.repository.UserRepository;
@@ -14,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder encoder;
 
 
     @Transactional
@@ -25,12 +23,11 @@ public class UserService {
         }
 
         // 암호화 진행
-        String encryptedPassword = encoder.encrypt(signup.getPassword());
 
         User user = User.builder()
                 .email(signup.getEmail())
                 .name(signup.getName())
-                .password(encryptedPassword)
+                .password(signup.getPassword())
                 .build();
 
         userRepository.save(user);

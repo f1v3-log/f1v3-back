@@ -1,6 +1,5 @@
 package com.f1v3.api.controller;
 
-import com.f1v3.api.config.data.UserSession;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
@@ -21,17 +20,6 @@ import java.util.List;
 public class PostController {
 
     private final PostService postService;
-
-    @GetMapping("/f1v3")
-    public Long f1v3(UserSession userSession) {
-        log.info(">> userSession = {}", userSession.id);
-        return userSession.id;
-    }
-
-    @GetMapping("/non-accessible")
-    public String nonAccessible() {
-        return "non-accessible";
-    }
 
     /**
      * 게시글 생성 메서드.
