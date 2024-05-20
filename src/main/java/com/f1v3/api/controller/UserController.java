@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
  */
 
 @RestController
-@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -23,7 +22,7 @@ public class UserController {
      * @param signup 회원 가입 정보
      */
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/signup")
+    @PostMapping("/users/signup")
     public void signup(@RequestBody Signup signup) {
         userService.signup(signup);
     }
