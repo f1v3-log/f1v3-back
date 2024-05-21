@@ -40,6 +40,10 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .defaultSuccessUrl("/"))
+                .rememberMe(rm -> rm
+                        .rememberMeParameter("remember")
+                        .alwaysRemember(false)
+                        .tokenValiditySeconds(86400 * 30))
                 .userDetailsService(userDetailsService())
                 .build();
     }
