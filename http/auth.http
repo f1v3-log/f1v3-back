@@ -5,11 +5,14 @@ Content-Type: application/x-www-form-urlencoded
 
 username=f1v3&password=1234&remember=1
 
-### 메인 페이지
+### 회원가입
 
-GET http://localhost:8080
-
-### 인증 페이지 요청 - 쿠키 사용
-GET http://localhost:8080/f1v3
+POST http://localhost:8080/users/signup
 Content-Type: application/json
-Cookie: SESSION=3a1019a8-71e8-475b-8ae5-ae0032060be6
+
+{
+  "name": "승조",
+  "email": "f1v3@gmail.com",
+  "password": "1234"
+}
+

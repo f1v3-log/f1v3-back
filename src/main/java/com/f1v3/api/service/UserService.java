@@ -5,6 +5,7 @@ import com.f1v3.api.exception.AlreadyExistsEmailException;
 import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.Signup;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
 
     @Transactional
@@ -23,11 +25,12 @@ public class UserService {
         }
 
         // 암호화 진행
+        String encryptedPassword = passwordEncoder.encode(signup.getPassword());
 
         User user = User.builder()
                 .email(signup.getEmail())
                 .name(signup.getName())
-                .password(signup.getPassword())
+                .password(encryptedPassword)
                 .build();
 
         userRepository.save(user);
