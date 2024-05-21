@@ -10,4 +10,14 @@ public class MainController {
     public String main() {
         return "This is Main Page!!";
     }
+
+    @GetMapping("/user")
+    public String user() {
+        return "반갑습니다 사용자님! 👶🏻";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "안녕하세요 관리자씨. 👨🏻";
+    }
 }
