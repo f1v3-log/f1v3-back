@@ -43,6 +43,8 @@ dependencies {
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'org.bouncycastle:bcprov-jdk18on:1.78'
 
+    // spring session jdbc
+    implementation 'org.springframework.session:spring-session-jdbc'
 
     // querydsl
     implementation("com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")

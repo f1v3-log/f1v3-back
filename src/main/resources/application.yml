@@ -23,6 +23,15 @@ spring:
     init:
       mode: always
 
+  session:
+    timeout: 86400
+
 
 f1v3:
   jwt-key: "fcn6scvfFoTGXuHqED0YweeKeEusGu5at2y/Y8oAyFY="
+
+server:
+  servlet:
+    session:
+      cookie:
+        max-age: 172800
