@@ -49,7 +49,6 @@ class UserServiceTest {
         assertAll(
                 () -> assertEquals(signup.getName(), user.getName()),
                 () -> assertEquals(signup.getEmail(), user.getEmail()),
-                () -> assertEquals(signup.getPassword(), user.getPassword()),
                 () -> assertNotNull(user.getPassword())
         );
     }

@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -45,6 +46,7 @@ class PostControllerTest {
 
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 작성 요청시 title, content 값이 정상이면 201(CREATED) 반환")
     void post_response_test() throws Exception {
 
@@ -65,6 +67,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 작성시 제목에 '광고'는 포함될 수 없다.")
     void post_response_fail() throws Exception {
 
@@ -107,6 +110,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 작성 요청시 DB에 값이 저장된다.")
     void post_db_test() throws Exception {
 
@@ -215,6 +219,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 제목 수정")
     void editPostTitle() throws Exception {
         // given
@@ -239,6 +244,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 수정 실패 - 존재하지 않는 게시글")
     void editPost_Fail() throws Exception {
 
@@ -257,6 +263,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 삭제")
     void deletePost() throws Exception {
         // given
@@ -275,6 +282,7 @@ class PostControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
     @DisplayName("게시글 삭제 실패 - 존재하지 않는 게시글")
     void deletePost_Fail() throws Exception {
 
