@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class PostController {
      *
      * @return status : 201(CREATED), body : 생성된 게시글 번호
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
     public PostCreateResponse createPost(@RequestBody @Valid PostCreate request) {
@@ -63,6 +65,7 @@ public class PostController {
      * @param postId  게시글 ID
      * @param request 게시글 수정 내용 객체
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/posts/{postId}")
     @ResponseStatus(HttpStatus.OK)
     public void edit(@PathVariable Long postId, @RequestBody @Valid PostEdit request) {
@@ -74,6 +77,7 @@ public class PostController {
      *
      * @param postId 게시글 ID
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/posts/{postId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Long postId) {

@@ -1,3 +1,13 @@
+### 게시글 작성
+
+POST http://localhost:8080/posts
+Content-Type: application/json
+
+{
+  "title": "제목입니다.",
+  "content": "내용입니다."
+}
+
 ### 인증 테스트 - 인증 실패
 
 GET http://localhost:8080/f1v3

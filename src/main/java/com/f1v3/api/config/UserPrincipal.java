@@ -10,7 +10,7 @@ public class UserPrincipal extends User {
     private final Long userId;
 
     public UserPrincipal(com.f1v3.api.domain.User user) {
-        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_USER")));
+        super(user.getEmail(), user.getPassword(), List.of(new SimpleGrantedAuthority("ROLE_ADMIN")));
         this.userId = user.getId();
     }
 

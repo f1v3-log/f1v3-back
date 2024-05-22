@@ -1,12 +1,3 @@
-### 로그인
-
-POST http://localhost:8080/auth/login
-Content-Type: application/json
-
-{
-  "email": "f1v3@kakao.com",
-  "password": "1234"
-}
 
 ### 회원가입
 
@@ -16,6 +7,17 @@ Content-Type: application/json
 {
   "name": "승조",
   "email": "f1v3@gmail.com",
+  "password": "1234"
+}
+
+
+### 로그인
+
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "email": "f1v3@kakao.com",
   "password": "1234"
 }
 
