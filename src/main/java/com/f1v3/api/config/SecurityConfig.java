@@ -55,14 +55,6 @@ public class SecurityConfig {
                         .requestMatchers("/user").hasRole("USER")
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated())
-//                .formLogin(configurer -> configurer
-//                        .loginPage("/auth/login")
-//                        .loginProcessingUrl("/auth/login")
-//                        .usernameParameter("username")
-//                        .passwordParameter("password")
-//                        .defaultSuccessUrl("/")
-//                        .failureHandler(new LoginFailHandler(objectMapper))
-//                )
                 .addFilterBefore(usernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(e -> {
                     e.accessDeniedHandler(new Http403Handler(objectMapper));
