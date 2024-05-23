@@ -1,8 +1,10 @@
 package com.f1v3.api.service;
 
 import com.f1v3.api.domain.Post;
+import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.PostNotFound;
 import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
@@ -26,7 +28,11 @@ class PostServiceTest {
     PostRepository postRepository;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     PostService postService;
+
 
     @BeforeEach
     void clear() {
@@ -37,13 +43,22 @@ class PostServiceTest {
     @DisplayName("글 작성 테스트")
     void writePost() {
         // given
+        User user = User.builder()
+                .email("f1v3@kakao.com")
+                .password("1234")
+                .name("seungjo")
+                .build();
+
+        userRepository.save(user);
+
+
         PostCreate postCreate = PostCreate.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .build();
 
         // when
-        postService.write(postCreate);
+        postService.write(user.getId(), postCreate);
 
         // then
         assertEquals(1L, postRepository.count());
