@@ -2,8 +2,11 @@ package com.f1v3.api.service;
 
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.domain.PostEditor;
+import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.PostNotFound;
+import com.f1v3.api.exception.UserNotFound;
 import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
@@ -22,6 +25,7 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     /**
      * 게시글 작성 메서드입니다.
@@ -29,11 +33,16 @@ public class PostService {
      * @param postCreate 게시글 제목 및 내용을 담은 DTO
      */
     @Transactional
-    public PostCreateResponse write(PostCreate postCreate) {
+    public PostCreateResponse write(Long userId, PostCreate postCreate) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFound::new);
+
 
         Post post = Post.builder()
                 .title(postCreate.getTitle())
                 .content(postCreate.getContent())
+                .user(user)
                 .build();
 
         postRepository.save(post);

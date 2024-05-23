@@ -1,5 +1,6 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.config.UserPrincipal;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.f1v3.api.request.PostSearch;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,9 +32,10 @@ public class PostController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/posts")
     @ResponseStatus(HttpStatus.CREATED)
-    public PostCreateResponse createPost(@RequestBody @Valid PostCreate request) {
+    public PostCreateResponse createPost(@AuthenticationPrincipal UserPrincipal userPrincipal,
+                                         @RequestBody @Valid PostCreate request) {
         request.validate();
-        return postService.write(request);
+        return postService.write(userPrincipal.getUserId(), request);
     }
 
     /**
@@ -77,7 +80,7 @@ public class PostController {
      *
      * @param postId 게시글 ID
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') && hasPermission(#postId, 'POST', 'DELETE')")
     @DeleteMapping("/posts/{postId}")
     @ResponseStatus(HttpStatus.OK)
     public void delete(@PathVariable Long postId) {
