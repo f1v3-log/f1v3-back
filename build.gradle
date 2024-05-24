@@ -68,6 +68,10 @@ dependencies {
 
     // annotation processor
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+    // test lombok
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
 }
 
 tasks.named('test') {
