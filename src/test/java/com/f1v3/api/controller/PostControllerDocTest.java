@@ -1,9 +1,12 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.config.F1v3logMockUser;
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.PostCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +15,6 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.restdocs.RestDocumentationExtension;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
@@ -39,6 +41,15 @@ class PostControllerDocTest {
 
     @Autowired
     ObjectMapper objectMapper;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @AfterEach
+    void clean() {
+        postRepository.deleteAll();
+        userRepository.deleteAll();
+    }
 
     @Test
     @DisplayName("글 단건 조회 테스트")
@@ -69,7 +80,7 @@ class PostControllerDocTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("글 등록 테스트")
     void testPost() throws Exception {
 

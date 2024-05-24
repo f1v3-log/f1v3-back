@@ -1,17 +1,19 @@
 package com.f1v3.api.controller;
 
+import com.f1v3.api.config.F1v3logMockUser;
 import com.f1v3.api.domain.Post;
+import com.f1v3.api.domain.User;
 import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.UserRepository;
 import com.f1v3.api.request.PostCreate;
 import com.f1v3.api.request.PostEdit;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -39,14 +41,18 @@ class PostControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-    @BeforeEach
+    @Autowired
+    UserRepository userRepository;
+
+    @AfterEach
     void clear() {
         postRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 작성 요청시 title, content 값이 정상이면 201(CREATED) 반환")
     void post_response_test() throws Exception {
 
@@ -67,7 +73,7 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 작성시 제목에 '광고'는 포함될 수 없다.")
     void post_response_fail() throws Exception {
 
@@ -110,7 +116,7 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 작성 요청시 DB에 값이 저장된다.")
     void post_db_test() throws Exception {
 
@@ -141,9 +147,18 @@ class PostControllerTest {
     @DisplayName("게시글 1개 조회")
     void testGet() throws Exception {
         // given
+        User user = User.builder()
+                .name("승조")
+                .email("f1v3@gmail.com")
+                .password("1212")
+                .build();
+
+        userRepository.save(user);
+
         Post post = postRepository.save(Post.builder()
                 .title("123456789012345")
                 .content("bar")
+                .user(user)
                 .build());
 
         // expected
@@ -171,10 +186,19 @@ class PostControllerTest {
     @DisplayName("게시글 여러개 조회")
     void testGetList() throws Exception {
         // given
+        User user = User.builder()
+                .name("승조")
+                .email("f1v3@gmail.com")
+                .password("1212")
+                .build();
+
+        userRepository.save(user);
+
         List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i -> Post.builder()
                         .title("f1v3 title - " + i)
                         .content("구구가가 - " + i)
+                        .user(user)
                         .build())
                 .collect(Collectors.toList());
 
@@ -197,10 +221,19 @@ class PostControllerTest {
     @DisplayName("게시글 여러개 조회 - 페이지 0으로 요청시 첫 페이지를 가져옴")
     void testGetZeroPage() throws Exception {
         // given
+        User user = User.builder()
+                .name("승조")
+                .email("f1v3@gmail.com")
+                .password("1212")
+                .build();
+
+        userRepository.save(user);
+
         List<Post> requestPosts = IntStream.range(0, 20)
                 .mapToObj(i -> Post.builder()
                         .title("f1v3 title - " + i)
                         .content("구구가가 - " + i)
+                        .user(user)
                         .build())
                 .collect(Collectors.toList());
 
@@ -219,13 +252,16 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 제목 수정")
     void editPostTitle() throws Exception {
         // given
+        User user = userRepository.findAll().get(0);
+
         Post post = Post.builder().
                 title("f1v3")
                 .content("가나다라")
+                .user(user)
                 .build();
 
         postRepository.save(post);
@@ -244,7 +280,7 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 수정 실패 - 존재하지 않는 게시글")
     void editPost_Fail() throws Exception {
 
@@ -263,13 +299,16 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 삭제")
     void deletePost() throws Exception {
         // given
+        User user = userRepository.findAll().get(0);
+
         Post post = Post.builder().
                 title("f1v3")
                 .content("가나다라")
+                .user(user)
                 .build();
 
         postRepository.save(post);
@@ -282,7 +321,7 @@ class PostControllerTest {
     }
 
     @Test
-    @WithMockUser(username = "f1v3@kakao.com", roles = {"ADMIN"})
+    @F1v3logMockUser
     @DisplayName("게시글 삭제 실패 - 존재하지 않는 게시글")
     void deletePost_Fail() throws Exception {
 
