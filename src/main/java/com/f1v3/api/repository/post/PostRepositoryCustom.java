@@ -1,7 +1,7 @@
 package com.f1v3.api.repository.post;
 
 import com.f1v3.api.domain.Post;
-import com.f1v3.api.request.PostSearch;
+import com.f1v3.api.request.post.PostSearch;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.List;

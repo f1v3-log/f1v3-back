@@ -1,4 +1,4 @@
-package com.f1v3.api.request;
+package com.f1v3.api.request.post;
 
 import com.f1v3.api.exception.InvalidRequest;
 import jakarta.validation.constraints.NotBlank;

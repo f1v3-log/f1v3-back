@@ -50,4 +50,8 @@ public class Post {
     public Long getUserId() {
         return this.user.getId();
     }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+    }
 }

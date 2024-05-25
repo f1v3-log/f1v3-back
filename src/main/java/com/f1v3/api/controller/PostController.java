@@ -1,9 +1,9 @@
 package com.f1v3.api.controller;
 
 import com.f1v3.api.config.UserPrincipal;
-import com.f1v3.api.request.PostCreate;
-import com.f1v3.api.request.PostEdit;
-import com.f1v3.api.request.PostSearch;
+import com.f1v3.api.request.post.PostCreate;
+import com.f1v3.api.request.post.PostEdit;
+import com.f1v3.api.request.post.PostSearch;
 import com.f1v3.api.response.PostCreateResponse;
 import com.f1v3.api.response.PostResponse;
 import com.f1v3.api.service.PostService;
