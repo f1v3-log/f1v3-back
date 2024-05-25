@@ -7,6 +7,7 @@ import com.f1v3.api.repository.comment.CommentRepository;
 import com.f1v3.api.repository.post.PostRepository;
 import com.f1v3.api.request.comment.CommentCreate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +17,19 @@ public class CommentService {
 
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public void write(Long postId, CommentCreate request) {
         Post post = postRepository.findById(postId)
                 .orElseThrow(PostNotFound::new);
 
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+
         Comment comment = Comment.builder()
                 .post(post)
                 .author(request.getAuthor())
-                .password(request.getPassword())
+                .password(encryptedPassword)
                 .content(request.getContent())
                 .build();
 

@@ -13,7 +13,7 @@ public class CommentCreate {
     private String author;
 
     @NotBlank(message = "비밀번호를 입력해주세요.")
-    @Length(min = 5, max = 30, message = "비밀번호는 5자 이상 30자 이하로 입력해주세요.")
+    @Length(min = 4, max = 30, message = "비밀번호는 5자 이상 30자 이하로 입력해주세요.")
     private String password;
 
     @NotBlank(message = "내용을 입력해주세요.")
