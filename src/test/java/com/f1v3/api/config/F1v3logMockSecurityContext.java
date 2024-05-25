@@ -2,14 +2,13 @@ package com.f1v3.api.config;
 
 
 import com.f1v3.api.domain.User;
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithSecurityContextFactory;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

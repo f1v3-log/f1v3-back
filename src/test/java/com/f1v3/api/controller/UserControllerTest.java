@@ -1,6 +1,6 @@
 package com.f1v3.api.controller;
 
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.Signup;
 import com.f1v3.api.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -1,4 +1,4 @@
-package com.f1v3.api.repository;
+package com.f1v3.api.repository.user;
 
 import com.f1v3.api.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;

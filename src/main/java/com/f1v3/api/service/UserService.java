@@ -2,7 +2,7 @@ package com.f1v3.api.service;
 
 import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.AlreadyExistsEmailException;
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.Signup;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;

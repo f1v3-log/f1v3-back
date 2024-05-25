@@ -6,7 +6,7 @@ import com.f1v3.api.config.handler.Http403Handler;
 import com.f1v3.api.config.handler.LoginFailHandler;
 import com.f1v3.api.config.handler.LoginSuccessHandler;
 import com.f1v3.api.domain.User;
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;

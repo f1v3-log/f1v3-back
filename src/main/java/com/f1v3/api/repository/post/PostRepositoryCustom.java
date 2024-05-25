@@ -1,4 +1,4 @@
-package com.f1v3.api.repository;
+package com.f1v3.api.repository.post;
 
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.request.PostSearch;

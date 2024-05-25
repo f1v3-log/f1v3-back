@@ -1,6 +1,6 @@
 package com.f1v3.api.config;
 
-import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -2,7 +2,7 @@ package com.f1v3.api.config;
 
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.exception.PostNotFound;
-import com.f1v3.api.repository.PostRepository;
+import com.f1v3.api.repository.post.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.core.Authentication;

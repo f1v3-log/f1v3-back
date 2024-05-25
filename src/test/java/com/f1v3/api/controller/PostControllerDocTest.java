@@ -2,8 +2,8 @@ package com.f1v3.api.controller;
 
 import com.f1v3.api.config.F1v3logMockUser;
 import com.f1v3.api.domain.Post;
-import com.f1v3.api.repository.PostRepository;
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.post.PostRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.PostCreate;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;

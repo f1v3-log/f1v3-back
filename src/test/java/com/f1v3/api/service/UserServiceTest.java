@@ -2,7 +2,7 @@ package com.f1v3.api.service;
 
 import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.AlreadyExistsEmailException;
-import com.f1v3.api.repository.UserRepository;
+import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.Signup;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

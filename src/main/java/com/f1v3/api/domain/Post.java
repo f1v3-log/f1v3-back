@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,6 +25,9 @@ public class Post {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn
     private User user;
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
     @Builder
     public Post(String title, String content, User user) {
