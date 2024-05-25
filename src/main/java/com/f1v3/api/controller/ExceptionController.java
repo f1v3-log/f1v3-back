@@ -37,6 +37,7 @@ public class ExceptionController {
 
     /**
      * 전역 예외 처리
+     *
      * @param e GeneralException (모든 예외의 최상위 클래스)
      * @return ErrorResponse (에러 응답 - code, message, validation)
      */
@@ -51,4 +52,17 @@ public class ExceptionController {
 
         return ResponseEntity.status(e.getStatusCode()).body(body);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> exception(Exception e) {
+        log.error("예외 발생 ", e);
+
+        ErrorResponse body = ErrorResponse.builder()
+                .code("500")
+                .message(e.getMessage())
+                .build();
+
+        return ResponseEntity.status(500).body(body);
+    }
+
 }

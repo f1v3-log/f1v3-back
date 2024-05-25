@@ -1,6 +1,5 @@
 package com.f1v3.api.controller;
 
-import com.f1v3.api.config.F1v3logMockUser;
 import com.f1v3.api.domain.Comment;
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.domain.User;
@@ -8,6 +7,7 @@ import com.f1v3.api.repository.comment.CommentRepository;
 import com.f1v3.api.repository.post.PostRepository;
 import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.comment.CommentCreate;
+import com.f1v3.api.request.comment.CommentDelete;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -46,7 +47,6 @@ class CommentControllerTest {
     PasswordEncoder passwordEncoder;
 
     @Test
-    @F1v3logMockUser
     @DisplayName("댓글 작성")
     void writeComment() throws Exception {
 
@@ -89,6 +89,52 @@ class CommentControllerTest {
         assertEquals(request.getContent(), savedComment.getContent());
         assertNotEquals(request.getPassword(), savedComment.getPassword());
         assertTrue(passwordEncoder.matches(request.getPassword(), savedComment.getPassword()));
+    }
+
+    @Test
+    @DisplayName("댓글 삭제")
+    void deleteComment() throws Exception {
+
+        // given
+        User user = User.builder()
+                .name("승조")
+                .email("f1v3@gmail.com")
+                .password("1212")
+                .build();
+
+        userRepository.save(user);
+
+        Post post = Post.builder()
+                .title("123456789012345")
+                .content("bar")
+                .user(user)
+                .build();
+
+        postRepository.save(post);
+
+        String encryptedPassword = passwordEncoder.encode("123456");
+
+        Comment comment = Comment.builder()
+                .post(post)
+                .author("seungjo")
+                .password(encryptedPassword)
+                .content("동해물과 백두산이 마르고 닳도록 하느님이 보우하사 우리나라 만세")
+                .build();
+
+        commentRepository.save(comment);
+
+        CommentDelete request = new CommentDelete();
+        ReflectionTestUtils.setField(request, "password", "123456");
+
+        String json = objectMapper.writeValueAsString(request);
+
+        // expected
+        mockMvc.perform(post("/comments/{commentId}/delete", comment.getId())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk());
+
     }
 
 }
