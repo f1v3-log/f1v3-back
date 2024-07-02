@@ -12,6 +12,9 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 
 import java.io.IOException;
 
+/**
+ * 로그인 요청을 처리하는 필터 클래스.
+ */
 public class EmailPasswordAuthFilter extends AbstractAuthenticationProcessingFilter {
 
     private final ObjectMapper objectMapper;
@@ -21,6 +24,13 @@ public class EmailPasswordAuthFilter extends AbstractAuthenticationProcessingFil
         this.objectMapper = objectMapper;
     }
 
+    /**
+     * 로그인 요청 처리 Filter.
+     * - request body 에서 email, password 정보를 통해 'EmailPassword' 객체 생성
+     * - UsernamePasswordAuthenticationToken 생성
+     * - 토큰을 사용하여 인증 시도 (이 토큰은 아직 인증되지 않은 상태)
+     * - this.getAuthenticationManager().authenticate(token) 호출을 통해 인증 시도
+     */
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         EmailPassword emailPassword = objectMapper.readValue(request.getInputStream(), EmailPassword.class);
