@@ -37,6 +37,10 @@ public class SecurityConfig {
     private final ObjectMapper objectMapper;
     private final UserRepository userRepository;
 
+    /**
+     * Security - ignore 설정 빈 등록.
+     * error 페이지, static resource, h2-console
+     */
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return web -> web.ignoring()
@@ -45,6 +49,14 @@ public class SecurityConfig {
                 .requestMatchers(PathRequest.toH2Console());
     }
 
+    /**
+     * Security 설정 빈 등록.
+     * - CSRF 비활성화
+     * - 모든 요청 허용
+     * - UsernamePasswordAuthenticationFilter 앞에 EmailPasswordAuthFilter 추가
+     * - 예외 처리 핸들러 등록 (접근 거부, 인증 실패)
+     * - RememberMe 설정 (remember-me 쿠키 사용)
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
@@ -63,6 +75,10 @@ public class SecurityConfig {
                 .build();
     }
 
+    /**
+     * EmailPasswordAuthFilter 빈 등록.
+     * - /auth/login 경로로 요청이 올 경우, EmailPasswordAuthFilter 실행
+     */
     @Bean
     public EmailPasswordAuthFilter usernamePasswordAuthenticationFilter() {
         EmailPasswordAuthFilter filter = new EmailPasswordAuthFilter("/auth/login", objectMapper);
@@ -75,6 +91,11 @@ public class SecurityConfig {
         return filter;
     }
 
+    /**
+     * RememberMeServices 빈 등록.
+     * - SpringSessionRememberMeServices 사용
+     * - remember-me 쿠키를 사용하여 로그인 유지
+     */
     @Bean
     public RememberMeServices rememberMeServices() {
         SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
@@ -85,6 +106,12 @@ public class SecurityConfig {
         return rememberMeServices;
     }
 
+    /**
+     * AuthenticationManager 빈 등록.
+     * - DaoAuthenticationProvider 사용
+     * - UserDetailsService 빈 주입 후 유저의 ID, Password 검증하는 역할
+     * - PasswordEncoder를 통해 암호화된 Password 비교
+     */
     @Bean
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -94,6 +121,10 @@ public class SecurityConfig {
         return new ProviderManager(provider);
     }
 
+    /**
+     * UserDetailsService 빈 등록.
+     * - UserRepository 주입을 받아 UserPrincipal 반환
+     */
     @Bean
     public UserDetailsService userDetailsService(UserRepository userRepository) {
         return username -> {
@@ -104,6 +135,9 @@ public class SecurityConfig {
         };
     }
 
+    /**
+     * 암호화된 Password를 비교하는 PasswordEncoder 빈 등록.
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new SCryptPasswordEncoder(
