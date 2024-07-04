@@ -4,7 +4,6 @@ import com.f1v3.api.domain.Post;
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /**
