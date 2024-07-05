@@ -8,6 +8,7 @@ import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.post.PostCreate;
 import com.f1v3.api.request.post.PostEdit;
 import com.f1v3.api.request.post.PostSearch;
+import com.f1v3.api.response.PagingResponse;
 import com.f1v3.api.response.PostResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -124,11 +125,11 @@ class PostServiceTest {
                 .page(1)
                 .build();
 
-        List<PostResponse> posts = postService.getList(postSearch);
+        PagingResponse<PostResponse> posts = postService.getList(postSearch);
 
         // then
-        assertEquals(10L, posts.size());
-        assertEquals("f1v3 title - 30", posts.get(0).getTitle());
+        assertEquals(10L, posts.getSize());
+        assertEquals("f1v3 title - 30", posts.getItems().get(0).getTitle());
     }
 
     @Test
