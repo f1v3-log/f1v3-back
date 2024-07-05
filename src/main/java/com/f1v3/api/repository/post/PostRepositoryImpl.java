@@ -3,6 +3,8 @@ package com.f1v3.api.repository.post;
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.domain.QPost;
 import com.f1v3.api.request.post.PostSearch;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
@@ -20,13 +22,20 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
      * @return 게시글 리스트
      */
     @Override
-    public List<Post> getList(PostSearch postSearch) {
+    public Page<Post> getList(PostSearch postSearch) {
         QPost post = QPost.post;
 
-        return from(post)
+        Long totalCount = from(post)
+                .select(post.count())
+                .fetchFirst();
+
+
+        List<Post> items = from(post)
                 .orderBy(post.id.desc())
                 .limit(postSearch.getSize())
                 .offset(postSearch.getOffset())
                 .fetch();
+
+        return new PageImpl<>(items, postSearch.getPageable(), totalCount);
     }
 }

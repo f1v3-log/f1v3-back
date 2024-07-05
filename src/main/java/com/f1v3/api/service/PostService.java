@@ -10,14 +10,14 @@ import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.post.PostCreate;
 import com.f1v3.api.request.post.PostEdit;
 import com.f1v3.api.request.post.PostSearch;
+import com.f1v3.api.response.PagingResponse;
 import com.f1v3.api.response.PostCreateResponse;
 import com.f1v3.api.response.PostResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Slf4j
 @Service
@@ -68,10 +68,9 @@ public class PostService {
      * 페이징 처리된 게시글 다중 조회 메서드입니다.
      */
     @Transactional(readOnly = true)
-    public List<PostResponse> getList(PostSearch postSearch) {
-        return postRepository.getList(postSearch).stream()
-                .map(PostResponse::new)
-                .toList();
+    public PagingResponse<PostResponse> getList(PostSearch postSearch) {
+        Page<Post> postPage = postRepository.getList(postSearch);
+        return new PagingResponse<>(postPage, PostResponse.class);
     }
 
     /**

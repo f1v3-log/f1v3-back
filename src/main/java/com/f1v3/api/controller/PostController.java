@@ -4,6 +4,7 @@ import com.f1v3.api.config.UserPrincipal;
 import com.f1v3.api.request.post.PostCreate;
 import com.f1v3.api.request.post.PostEdit;
 import com.f1v3.api.request.post.PostSearch;
+import com.f1v3.api.response.PagingResponse;
 import com.f1v3.api.response.PostCreateResponse;
 import com.f1v3.api.response.PostResponse;
 import com.f1v3.api.service.PostService;
@@ -14,8 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -58,7 +57,7 @@ public class PostController {
      */
     @GetMapping("/posts")
     @ResponseStatus(HttpStatus.OK)
-    public List<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
+    public PagingResponse<PostResponse> getList(@ModelAttribute PostSearch postSearch) {
         return postService.getList(postSearch);
     }
 
