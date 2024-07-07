@@ -3,12 +3,14 @@ package com.f1v3.api.repository.post;
 import com.f1v3.api.domain.Post;
 import com.f1v3.api.domain.QPost;
 import com.f1v3.api.request.post.PostSearch;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 
 import java.util.List;
 
+@Slf4j
 public class PostRepositoryImpl extends QuerydslRepositorySupport implements PostRepositoryCustom {
 
     public PostRepositoryImpl() {
@@ -29,6 +31,7 @@ public class PostRepositoryImpl extends QuerydslRepositorySupport implements Pos
                 .select(post.count())
                 .fetchFirst();
 
+        log.info("totalCount: {}", totalCount);
 
         List<Post> items = from(post)
                 .orderBy(post.id.desc())
