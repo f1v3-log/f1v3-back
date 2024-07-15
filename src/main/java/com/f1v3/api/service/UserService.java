@@ -2,8 +2,10 @@ package com.f1v3.api.service;
 
 import com.f1v3.api.domain.User;
 import com.f1v3.api.exception.AlreadyExistsEmailException;
+import com.f1v3.api.exception.UserNotFound;
 import com.f1v3.api.repository.user.UserRepository;
 import com.f1v3.api.request.Signup;
+import com.f1v3.api.response.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,14 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+
+    @Transactional(readOnly = true)
+    public UserResponse getUserProfile(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(UserNotFound::new);
+
+        return new UserResponse(user);
+    }
 
     @Transactional
     public void signup(Signup signup) {
